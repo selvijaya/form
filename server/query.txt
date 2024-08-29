@@ -1,0 +1,145 @@
+use form;
+
+CREATE TABLE call_history (
+    call_id INT PRIMARY KEY,
+    caller_id VARCHAR(20),
+    receiver_id VARCHAR(20),
+    call_date_time DATETIME,
+    duration TIME,
+    call_type VARCHAR(10) CHECK (call_type IN ('Inbound', 'Outbound')),
+    call_status VARCHAR(10) CHECK (call_status IN ('Completed', 'Missed', 'Failed')),
+    agent_id VARCHAR(20),
+    department VARCHAR(50),
+    call_recording VARCHAR(255),
+    customer_name VARCHAR(100),
+    customer_contact VARCHAR(20),
+    account_number VARCHAR(50),
+    call_notes TEXT,
+    resolution_status VARCHAR(10) CHECK (resolution_status IN ('Resolved', 'Pending', 'Escalated'))
+);
+
+select*from call_history;
+
+
+INSERT INTO call_history (
+    call_id,
+    caller_id,
+    receiver_id,
+    call_date_time,
+    duration,
+    call_type,
+    call_status,
+    agent_id,
+    department,
+    call_recording,
+    customer_name,
+    customer_contact,
+    account_number,
+    call_notes,
+    resolution_status
+) VALUES
+(
+   4,                   
+    '+24567890',     
+    '+0987656561',        
+    '2022-08-02 14:30:00',
+    '00:16:30',          
+    'Inbound',            
+    'Completed',          
+    'A001',              
+    'balance enquiry',  
+    'https://example1.com/recordings/1',
+    'Priya ',        
+    '+12445567890',     
+    'AC123427456',          
+    'Resolved', 
+    'Resolved'           
+),
+(
+    2,                  
+    '+2345678901',  
+    '+0987654321',       
+    '2024-08-12 15:00:00',
+    '00:05:45',         
+    'Outbound',   
+    'Missed',  
+    'A002',       
+    'Sales',        
+    NULL,          
+    'Jane Smith',    
+    '+2345678901', 
+    'AC654321',         
+    'Left voicemail',   
+    'Pending'           
+);
+
+CREATE TABLE account_details (
+    account_id INT PRIMARY KEY IDENTITY(1,1),        
+    account_number VARCHAR(20),          
+    account_holder_name VARCHAR(100),        
+    account_type VARCHAR(50),            
+    balance DECIMAL(15, 2) ,                 
+    status VARCHAR(20),          
+    last_updated DATETIME DEFAULT GETDATE(),           
+    branch_name VARCHAR(100),                          
+    contact_number VARCHAR(15),                        
+    email_address VARCHAR(100),                       
+    address VARCHAR(255)                            
+);
+
+
+select*from account_details
+
+INSERT INTO account_details (account_number, account_holder_name, account_type, balance, status, branch_name, contact_number, email_address, address)
+VALUES 
+('AC123456789', 'John Doe', 'Savings', 1000.00, 'Active', 'Main Branch', '123-456-7890', 'john.doe@example.com', '123 Elm Street, Springfield, IL'),
+('AC987654321', 'Jane Smith', 'Checking', 500.50, 'Active', 'Westside Branch', '987-654-3210', 'jane.smith@example.com', '456 Oak Avenue, Springfield, IL'),
+('AC555555555', 'Emily Johnson', 'Savings', 2500.75, 'Inactive', 'North Branch', '555-555-5555', 'emily.johnson@example.com', '789 Pine Road, Springfield, IL'),
+('AC666666666', 'Michael Brown', 'Checking', 123.45, 'Active', 'South Branch', '666-666-6666', 'michael.brown@example.com', '321 Maple Drive, Springfield, IL'),
+('AC777777777', 'Olivia Davis', 'Savings', 3200.00, 'Active', 'Main Branch', '777-777-7777', 'olivia.davis@example.com', '654 Birch Lane, Springfield, IL');
+
+
+CREATE TABLE loan_details (     
+    account_id INT,                              
+    loan_amount DECIMAL(15, 2),                 
+    loan_type VARCHAR(50),                      
+    interest_rate DECIMAL(5, 2),                 
+    start_date DATE,                            
+    end_date DATE,                              
+    status VARCHAR(20),                         
+    last_payment_date DATE,                      
+    next_payment_date DATE,                      
+    balance DECIMAL(15, 2),                      
+    payment_frequency VARCHAR(20),               
+    branch_name VARCHAR(100),                   
+    contact_number VARCHAR(15),                  
+    email_address VARCHAR(100),                  
+    FOREIGN KEY (account_id) REFERENCES account_details(account_id) 
+);
+
+drop table loan_details
+
+INSERT INTO loan_details (
+    account_id, 
+    loan_amount, 
+    loan_type, 
+    interest_rate, 
+    start_date, 
+    end_date, 
+    status, 
+    last_payment_date, 
+    next_payment_date, 
+    balance, 
+    payment_frequency, 
+    branch_name, 
+    contact_number, 
+    email_address
+) VALUES 
+(1, 50000.00, 'Personal', 5.75, '2022-01-15', '2027-01-15', 'Active', '2024-07-15', '2024-08-15', 25000.00, 'Monthly', 'Main Branch', '555-1234', 'customer1@example.com'),
+(2, 200000.00, 'Mortgage', 3.50, '2021-06-01', '2041-06-01', 'Active', '2024-07-01', '2024-08-01', 190000.00, 'Monthly', 'Downtown Branch', '555-5678', 'customer2@example.com'),
+(3, 15000.00, 'Auto', 4.25, '2023-03-10', '2028-03-10', 'Active', '2024-06-10', '2024-07-10', 10000.00, 'Monthly', 'Westside Branch', '555-9876', 'customer3@example.com'),
+(4, 10000.00, 'Personal', 6.00, '2024-02-20', '2026-02-20', 'Active', '2024-07-20', '2024-08-20', 8000.00, 'Quarterly', 'Eastside Branch', '555-4321', 'customer4@example.com');
+
+
+
+select*from loan_details
