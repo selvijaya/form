@@ -1,0 +1,24 @@
+
+.light {
+  --background-color: #FFFFFF;
+  --text-color: #000000;
+  --sidebar-bg: #f0f0f0;
+  --sidebar-text: #000000;
+  --hover-bg: #e0e0e0;
+}
+
+
+.dark {
+  --background-color: #000000;
+  --text-color: #ffffff;
+  --sidebar-bg: #1a1a1a;
+  --sidebar-text: #ffffff;
+  --hover-bg: #333333;
+}
+
+
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+} 
